@@ -1,0 +1,42 @@
+GEM
+  remote: http://rubygems.org/
+  specs:
+    activemodel (3.2.11)
+      activesupport (= 3.2.11)
+      builder (~> 3.0.0)
+    activerecord (3.2.11)
+      activemodel (= 3.2.11)
+      activesupport (= 3.2.11)
+      arel (~> 3.0.2)
+      tzinfo (~> 0.3.29)
+    activerecord-postgis-adapter (0.5.0)
+      rgeo-activerecord (~> 0.4.6)
+    activesupport (3.2.11)
+      i18n (~> 0.6)
+      multi_json (~> 1.0)
+    arel (3.0.2)
+    builder (3.0.4)
+    ethon (0.5.7)
+      ffi (~> 1.2.0)
+      mime-types (~> 1.18)
+    ffi (1.2.1)
+    i18n (0.6.1)
+    mime-types (1.19)
+    multi_json (1.5.0)
+    pg (0.14.1)
+    rgeo (0.3.20)
+    rgeo-activerecord (0.4.6)
+      activerecord (>= 3.0.3)
+      arel (>= 2.0.6)
+      rgeo (>= 0.3.20)
+    typhoeus (0.5.4)
+      ethon (~> 0.5.7)
+    tzinfo (0.3.35)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  activerecord-postgis-adapter
+  pg
+  typhoeus
