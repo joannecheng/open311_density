@@ -13,22 +13,31 @@ def get_requests(service_codes, url)
   requests_by_code
 end
 
+def find_tract_id(request, conn)
+  query = "select gid from cook_census_tracts where st_contains(geom, st_geomfromtext('SRID=4326;POINT(#{request['long']} #{request['lat']})', 4269)) = true"
+  conn.exec(query).first['gid']
+end
+
 def update_db(requests_by_code)
   conn = PG.connect( :dbname => 'my_spatial_db')
   requests_table = 'requests'
 
   requests_by_code.keys.each do |sr|
     requests_by_code[sr].each do |request|
+      cook_census_tract_id = find_tract_id request, conn
+      puts "inserting #{request['service_code']} POINT('#{request['long']} #{request['lat']}') #{DateTime.parse(request['requested_datetime'])} #{cook_census_tract_id}"
+
       query = "INSERT into #{requests_table} 
-    (service_code, location, requested_datetime) 
+    (service_code, location, requested_datetime, cook_census_tracts_id) 
     VALUES ( 
     '#{request['service_code']}', 
     ST_GeomFromText('POINT(#{request['long']} #{request['lat']})', 4326),
-    '#{Date.parse(request['requested_datetime']) }' ) ;"
-    conn.exec(query)
+    '#{DateTime.parse(request['requested_datetime']) }',
+    #{cook_census_tract_id}) ;"
+      conn.exec(query)
     end
   end
-
+  conn.close
 end
 
 url = "http://311api.cityofchicago.org/open311/v2/"
