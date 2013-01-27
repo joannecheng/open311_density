@@ -26,7 +26,7 @@ results.each do |row|
   features[:features] << feature 
 end
 
-puts features
+puts features.to_json
 
 conn.close
 
